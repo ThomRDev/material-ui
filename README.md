@@ -15,7 +15,10 @@
   # <team> copiar el team que este en el url
   vercel project add <name-project> --scope <team> --token=<token>
   vercel project add test --scope <team> --token=<token>
-  # VARIABLES DE ENTORNO NECESARIAS 
+  # en el caso de no usar scope
+  vercel project add test --token=<token>
+
+  # VARIABLES DE ENTORNO NECESARIAS dentro de circle ci
   # VERCEL_PROJECT_NAME
   # VERCEL_SCOPE
   # VERCEL_TOKEN
@@ -66,7 +69,8 @@ jobs:
         # deploy
       - run:
           name: Vercel Prod Deploy
-          command: vercel --prod --build-env VITE_RICK_AND_MORTY_URL=https://rickandmortyapi.com/api/ --name $VERCEL_PROJECT_NAME --scope $VERCER_SCOPE --token=$VERCEL_TOKEN  # yes que no lance ninguna pregunta, todo yes
+          # si no tengo scope lo ignoro en el codigo
+          command: vercel --prod --build-env VITE_RICK_AND_MORTY_URL=https://rickandmortyapi.com/api/ --name $VERCEL_PROJECT_NAME --scope $VERCER_SCOPE --token=$VERCEL_TOKEN  --yes # yes que no lance ninguna pregunta, todo yes
 # estos son los pipelines
 workflows:
   version: 2
@@ -87,3 +91,6 @@ workflows:
               only:
                 - develop
 ````
+
+
+https://vercel.com/docs/cli/global-options
